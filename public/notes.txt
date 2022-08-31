@@ -1,0 +1,48 @@
+**************************NOTES FOR PROJECT************************************************
+-push to github
+- add a way to remove order item selected
+-updating availability
+-view_orders should by default show ten orders at a time
+-have a way to edit (by date) orders showed
+-remember to properly style create_menu.php ==done
+  
+  
+  
+  ***********************************************************************************************
+  <span  class="btn order  m-2 d-flex align-items-baseline align-content-center" >
+      <select name="units" id="select_unit" class="btn btn-sm " 
+         style="border-radius: 2rem; padding:1px;">
+   <option selected>Op</option>
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option>
+  <option value="13">13</option>
+  <option value="14">14</option>
+  <option value="15">15</option>
+  <option value="16">16</option>
+      </select> 
+      <p class="btn " id="title"><?php echo $result[0]['dish_title']; ?></p>
+      <label for="p">Ksh</label>
+      <span id="show_price">120</span>
+      <input type="number" hidden  name="price" id="unit_price" value=89> 
+      
+   </span>
+
+
+
+   USE chickenland_pilau;
+SELECT `units`,`order_id`,`price`,`order_status`, `units`*`price` as 'total'
+FROM `order_items` oi
+INNER JOIN `order` o ON oi.`order_id fk`=o.`order_id` JOIN `menu` m ON m.`serial`=oi.`serial fk`;
+
+
+select id,sum(quantity) from table_name group by id
