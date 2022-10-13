@@ -2,24 +2,33 @@
 
 require_once('../connection.php');
 
- 
-$statement=$pdo->prepare('SELECT * FROM menu ORDER BY serial DESC');
- 
-$statement->execute();
+ $statement=$pdo->prepare('SELECT * FROM menu ORDER BY serial DESC');
+ $statement->execute();
 $products=$statement->fetchAll(PDO::FETCH_ASSOC); 
 //var_dump($products);
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html lang="en">
+  <style>
+    .side{
+     width: 200px;
+    }
+  </style>
 <?php require_once '../partials/header.php' ?>
-<body>
-    <h1>Update Product</h1>
+<body class="con">
+  <?php require_once '../partials/navbar.php' ?>
+   <!-- <h3>Update Menu</h3>
     <!----UPDATE PRODUCT BUTTON--->
+<div class="d-flex container">
 
+<div class="card side" >
+      <a href="create_menu.php" class="btn btn-success m-2">Add Menu Item</a>
+     
+
+   </div>
+<div class="">
 <table class="table">
   <thead>
     <tr>
@@ -62,11 +71,10 @@ $products=$statement->fetchAll(PDO::FETCH_ASSOC);
     
   </tbody>
 </table>
-<P>
-      <a href="create_menu.php" class="btn btn-success">Create Product</a>
-      <a href="create_order.php" class="btn btn-success">Create Order</a>
+</div>
 
-    </P>
+</div>
+
     <!------->
 </body>
 </html>

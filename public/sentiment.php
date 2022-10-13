@@ -2,8 +2,9 @@
 require_once ("../vendor/autoload.php");
 require_once "../vendor/davmixcool/php-sentiment-analyzer/src/analyzer.php";
 require_once('../connection.php');
+ require '../partials/header.php' ;
 
-
+require_once ("../partials/navbar.php");
 $statement= $pdo->prepare("SELECT review_content FROM reviews");
 $statement->execute();
 $result= $statement->fetchAll(PDO::FETCH_ASSOC);

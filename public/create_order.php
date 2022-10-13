@@ -118,7 +118,7 @@ echo $items["dish_title"];
 </table>
 
 <form action="" method="post" class="card text-center" style="width: 20rem;" id="order_form">
-   <h4>Order Items</h4>
+  <div class="text-center pt-3"><h4>Order Items</h4></div> 
  
    <hr>
 <button type="submit" class="btn btn-lg btn-success" style="position:absolute ; bottom:0;">Make Order</button>

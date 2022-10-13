@@ -11,11 +11,7 @@ FROM `order_items` oi
 INNER JOIN `order` o ON oi.`order_id fk`=o.`order_id` JOIN `menu` m ON m.`serial`=oi.`serial fk` group by o.`order_id`; ");
  $statement->execute();
 $order_iid=$statement->fetchAll(PDO::FETCH_ASSOC);
-
-echo '<pre>';
-//var_dump($products);
-echo '</pre>';
-//-----------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------
 ?>
 
 <!DOCTYPE html>
@@ -24,12 +20,22 @@ echo '</pre>';
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="index.css">
 <?php require '../partials/header.php' ?>
-<body class="container">
-  
+<style>
+    .side{
+     width: 200px;
+    }
+  </style>
+<body >
+  <?php require "../partials/navbar.php"?>
     <!----UPDATE PRODUCT BUTTON--->
 
+<div class="d-flex  container">
+<div class="card side " >
+     
+      <a href="create_order.php" class="btn btn-success m-2">Create Order</a>
 
-
+   </div>
+<div class="container">
 <table class="table">
   <thead>
     <tr>
@@ -58,14 +64,13 @@ echo '</pre>';
         
       <!-----<button class="btn btn-secondary " onclick="alerti()">View</button>  -->
        
-       <form method="post" action="complete_order.php" style="display:inline-block;" >
-       <input type="hidden" name='serialll' value="<?php echo $product['order_id']?>">
-       <button   type="submit" class="btn btn-sm btn-outline-primary">Complete</button>
-       </form>
-       <form method="post" action="cancel_order.php" style="display:inline-block;" >
+       
+
+       <form method="post" action="serve.php" style="display:inline-block;" >
        <input type="hidden" name='serial' value="<?php echo $product['order_id']?>">
-       <button   type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
+       <button   type="submit" class="btn btn-sm btn-outline-danger">Serve</button>
        </form>
+
        
      </td>
       
@@ -74,4 +79,8 @@ echo '</pre>';
     
   </tbody>
 </table>
+</div>
+</div>
+   
+
 </body>
