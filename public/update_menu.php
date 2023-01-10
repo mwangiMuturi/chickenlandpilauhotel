@@ -98,7 +98,7 @@ header('Location:index.php');
     <link rel="icon" type="image/x-icon" href="https://media.istockphoto.com/vectors/flat-icon-check-vector-id496603666?k=20&m=496603666&s=170667a&w=0&h=QOfI-aqzv1dEamb2evpWUvKkukJwtH4YRF_Ugwksk6Y=">
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="app.css">
     <title>Create new product</title>
   </head>
@@ -141,7 +141,7 @@ header('Location:index.php');
 
   <div class="mb-3 form-group">
     <label  class="form-label">Product Price</label>
-    <input type="number" step="0.01" class="form-control" name="price" value="<?php echo $price ?>">
+    <input type="number" step="1" min=1 class="form-control" name="price" value="<?php echo $price ?>">
     <div  class="form-text"></div>
   </div>  
 

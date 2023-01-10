@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../connection.php';
 $errors=[];
  
@@ -22,6 +23,16 @@ if (!$price)
 {
   $errors[]='Product price is required';
 }
+if ($price>500)
+{
+  $errors[]='Maximu price is 500';
+}
+if ($price<20)
+{
+  $errors[]='Minimum price is Ksh 20';
+}
+
+
 
 if(!is_dir('images')){
   mkdir('images');
@@ -44,9 +55,8 @@ if($image&&$image['tmp_name']){
  $statement->bindValue(':price',$price);
  $statement->bindValue(':description',$description);
 $statement->execute();
-echo "<script>alert('successful')</script>";
-echo 'done';
-header('Location:create_menu.php');
+$_SESSION['success']='Menu item added successfully';
+header( "refresh:3;url=index.php" );
  
 }
  }
@@ -66,6 +76,13 @@ header('Location:create_menu.php');
 
 <?php require_once '../partials/header.php' ?>
 <h3>Create Menu Item</h3>
+<?php if (isset($_SESSION['success'])): ?>
+<div id="response" class="alert alert-success">
+
+
+ <?php echo $_SESSION['success']; unset($_SESSION['success']); ?>
+</div>
+<?php endif?>
 <body class="container d-flex flex-column justify-content-around">
     
    
@@ -82,16 +99,15 @@ header('Location:create_menu.php');
 <!-------------->
 
 
-    <form action="" method="POST" autocomplete="off" enctype="multipart/form-data" >
+    <form action="" method="POST" autocomplete="off" enctype="multipart/form-data" id="form" >
 <!--ids are title, price, desc, img, availability -->
         <label for="dish_title" class="btn fs-5">Dish Name</label>
 <input name="dish_title" type="text" placeholder="enter dish name" id="title"  class="form-control"> 
 
 <label for="price" class="btn fs-5">Price</label> 
-<input type="text" placeholder="enter price" class="form-control"  name="price" id="price" >
+<input type="number" min=1 step="1" placeholder="enter price" class="form-control"  name="price" id="price" >
 
-<label for="availability"  class="btn fs-5">Availability</label> 
-<input type="text" placeholder="availability" name="availability" id="availability"  class="form-control">
+
 
 <label for="description"  class="btn fs-5">Description</label>
 <textarea name="description" id="desc"  cols="30" rows="2"  class="form-control"></textarea>
@@ -104,5 +120,25 @@ header('Location:create_menu.php');
     
 
 </body>
-<script src="scriptjs"></script>
+
+
+<script>
+//serius businee
+const form = document.getElementById('form')
+const title = document.getElementById('title')
+
+  
+form.addEventListener('submit', (e) => {
+  let messages = []
+  
+  if (title.value.length>50) {
+    messages.push('Max char is 50')
+  }
+
+  if (messages.length > 0) {
+    e.preventDefault()
+    //errorElement.innerText = messages.join(', ')
+  }
+})
+</script>
 </html>

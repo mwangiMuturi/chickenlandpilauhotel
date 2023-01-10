@@ -1,5 +1,5 @@
-<div class="card" style="width:18rem;">
-    <img src="<?php echo $img?>" class="card-img-top" alt="...">
+<div class="card" style="width:15rem;  ">
+    <img style="height: 100; background-size:contain" src="<?php echo $img?>" class="card-img-top" alt="...">
     <div class="card-body">
       <h5 class="card-title"><?php $title?></h5>
       <p class="card-text"> <?php echo $desc ?></p>

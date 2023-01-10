@@ -4,11 +4,20 @@
    
 
 <?php
+$previous = "javascript:history.go(-1)";
+if(isset($_SERVER['HTTP_REFERER'])) {
+    $previous = $_SERVER['HTTP_REFERER'];
+}
+
+session_start();
+//var_dump($_SESSION);
 require_once "../connection.php";
 require_once "../partials/header.php";?>
 <span class="d-fl">
-<a href="index.php" class="btn btn-success">Home</a> 
-<h1>Create Order</h1>
+<a href="view_orders.php" class="btn btn-success">Home</a> 
+
+
+<h3>Make Order</h3>
 </span>
 
 <?php
@@ -28,34 +37,40 @@ $highest_order_id= ($result_num ["max(`order_id`)"]) ? $result_num ["max(`order_
 
 // Setting  timezone!
 date_default_timezone_set('Africa/Nairobi');
-$date = date('Y/m/d', time());
+$date = date('Y/m/d H:i:s', time());
 $status='pending';
 
-
+//var_dump($_POST);
 if ($_POST){
  //   echo $date;
-  
-$statement=$pdo->prepare(" INSERT INTO `order` ( `order_id`,`create_date`, `order_status`) VALUES ( :highest,:dates, :statuss)");  
+$payment=$_POST['payment'];
+echo $payment;
+$statement=$pdo->prepare(" INSERT INTO `order` ( `order_id`,`create_date`, `order_status`,`mode` )
+                           VALUES ( :highest,:dates, :statuss,:mode)");  
 $statement->bindValue(':highest',$highest_order_id+1);
 $statement->bindValue(':dates',$date);
 $statement->bindValue(':statuss',$status); 
-$statement->execute();
+$statement->bindValue(':mode',$payment); 
 
+$statement->execute();
+/*
+$statement_customer_orders=$pdo->prepare(" INSERT INTO `chickenland_pilau`.`customer_orders` ( `cust_id`,`order_id`)
+                                            VALUES (:makersid,:orderid)");
+$statement_customer_orders->bindValue(':makersid',$_SESSION['user_id']);
+$statement_customer_orders->bindValue(':orderid',$highest_order_id+1);
+$statement_customer_orders->execute();
+*/
 for ($i=count($_POST['units'])-1;$i>=0;$i--){
 //echo '<h1>baba</h1>';
-
-
-$statement_order_items=$pdo->prepare("INSERT INTO order_items (`units`, `order_id fk`, `serial fk`)   VALUES(:units,:highest,:seriall) ");
+$statement_order_items=$pdo->prepare("INSERT INTO order_items (`units`, `order_id fk`, `serial fk`) 
+                                      VALUES(:units,:highest,:seriall) ");
 $statement_order_items->bindValue(':units', $_POST['units'][$i]);
 $statement_order_items->bindValue(':highest',$highest_order_id+1);
 $statement_order_items->bindValue(':seriall', $_POST['serial'][$i]);
 $statement_order_items->execute();
-}
-echo '<pre>';
-  // var_dump($_POST['units'][0]);
-   echo '</pre>';
+header('location:create.php');
 
-}
+}}
  
 //------------GETTING PRICE AND DISH_TITLE TO BE USED IN CREATING ITEM
 /*
@@ -75,8 +90,10 @@ echo $items["dish_title"];
 }
 */
 //End of php ---------------------------------------------------------------------------------------------------------
-?>
 
+?>
+<?php if(isset($_SESSION['success'])) : ?>
+<div class="alert alert-success"><?php echo $_SESSION['success'];unset($_SESSION['success']); ?></div> <?php endif ?>
 <div class="content">
 <table class="table ms-3" style="width: 50%;">
   <thead>
@@ -117,11 +134,16 @@ echo $items["dish_title"];
   </tbody>
 </table>
 
-<form action="" method="post" class="card text-center" style="width: 20rem;" id="order_form">
+<form action="" method="post" class="card text-center" style="width: 20rem; " id="order_form" >
+
   <div class="text-center pt-3"><h4>Order Items</h4></div> 
  
    <hr>
-<button type="submit" class="btn btn-lg btn-success" style="position:absolute ; bottom:0;">Make Order</button>
+   <div class="d-flex fs-6 justify-content-around">
+ <div> <input type="radio" name="payment" id="m-pesa" value="M-PESA" onclick=enable()> <Label for="m-pesa" class="m-1"> M-PESA</Label> </div>
+<div>  <input type="radio" name="payment" id="cash" value="CASH" onclick=enable()> <Label for="cash" class="m-1">CASH</Label>  </div>
+ </div>
+<button type="submit" id="continue" class="btn  btn-success form-control" style="position:absolute ; bottom:0;">CONTINUE</button>
 
       </form>
 </div>
@@ -133,7 +155,9 @@ echo $items["dish_title"];
 
 
 <script>
+
   //SCRIPT FOR CREATE_ORDER.PHP==============================================================================================
+ 
 //const units=document.getElementById('select_units')
 //units.addEventListener("change", price_calculator);
 //=--------------------------var price=document.getElementById('unit_price').value
@@ -158,7 +182,7 @@ function  price_calculator(){
 console.log('davie')
 }
 */
-
+let formspan
 
 function choose_item(event){
 let h=event.target.value
@@ -169,7 +193,7 @@ formdiv.classList.add('d-flex', 'items')
 //const units=document.getElementById('select_unit')
 //units.addEventListener("change", price_calculator);
 
-var formspan = document.createElement("span");
+ formspan = document.createElement("span");
 
 formspan.classList.add('btn','order' , 'm-2', 'd-flex' ,'align-items-baseline', 'align-content-center')
 formdiv.appendChild(formspan)
@@ -245,10 +269,25 @@ function remov(ind){
        choosebtn[0].disabled=false
         let child=document.getElementById('child')
         child.parentElement.parentElement.remove();
+        if (!child.siblings){
+        document.getElementById("continue").disabled=true
+
+        }
         console.log(child.siblings)
 
     }
 
+    let payment=document.getElementsByName("payment");
+ if (!(payment[0].checked || payment[1].checked)) {
+        document.getElementById("continue").disabled=true
+    }
+    function enable(){
+      if (formspan){
+      console.log(formspan);
+      document.getElementById("continue").disabled=false
+
+      }
+    }
 </script>
 
 </html>

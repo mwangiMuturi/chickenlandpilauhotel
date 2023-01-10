@@ -24,12 +24,16 @@ $result= $statement->fetchAll(PDO::FETCH_ASSOC);
 ?> 
    </div>
 
-<a href="review.php" class="btn btn-lg btn-outline-secondary text-info my-2">Make a review</a>
+<a href="create_order.php" class="btn btn-lg btn-outline-success my-2 form-control" 
+>Make an Order</a>
+
+<a href="review.php" class="btn btn-lg btn-outline-success my-2 form-control" 
+>Leave a comment</a>
+
 
 
 <div style="height: 200;" class="bg-dark"></div>
 
-<a class="btn btn-success" href="sentiment.php">Too long</a>
 </body>
 
 

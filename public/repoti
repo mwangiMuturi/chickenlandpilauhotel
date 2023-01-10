@@ -1,0 +1,2 @@
+order_status,create_date,server_id,order_id,total,cust_name
+pending,"2022-11-13 19:17:40",,70,100," James"

@@ -46,7 +46,7 @@ justify-content: space-aroun;
 </style>
 <nav class="navbar navbar-expand-lg bg-light mb-1 navba">
   <div class="container-fluid cont pl-3">
-    <a class="navbar-brand branding fs-3" href="dashboard.php">ChickenLand</a>
+    <a class="navbar-brand branding fs-3" href="dashboard.php">ChickenLand Pilau</a>
    
     <div class=" container" >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-arnd list fs-5">
